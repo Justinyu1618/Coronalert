@@ -21,5 +21,3 @@ def process_places(places):
         place["location_id"] = Loc.id
         locations.append(Loc)
     return places, locations
-        
-

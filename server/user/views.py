@@ -30,7 +30,7 @@ def submit():
         response["msg"] = "Could not find County of one of your addresses!"
         return jsonify(response), 400
 
-    body["places"] = {"places": new_places[0]}
+    body["places"] = new_places[0]
     body["locations"] = new_places[1]
 
     try:

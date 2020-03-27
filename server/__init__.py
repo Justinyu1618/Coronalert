@@ -2,6 +2,7 @@ from flask import Flask, render_template
 # from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
 from twilio.rest import Client
+from flask_migrate import Migrate
 
 STATIC_FOLDER = "../client/build/static"
 TEMPLATE_FOLDER = "../client/build"
@@ -25,10 +26,12 @@ def load_blueprints():
     from server.user.views import user_bp
     from server.location.views import location_bp
     from server.datapull.views import datapull_bp
+    from server.sms.views import sms_bp
 
     app.register_blueprint(user_bp, url_prefix="/api/user")
     app.register_blueprint(location_bp, url_prefix="/api/location")
     app.register_blueprint(datapull_bp, url_prefix="/api/datapull")
+    app.register_blueprint(sms_bp, url_prefix="/api/sms")
 
 
 def setup_default_routes():
@@ -66,6 +69,7 @@ def create_app():
     global db
     global jwt
     global twilio_client
+    global migrate
 
     # Set up and configure app
     app = Flask(__name__, static_folder=STATIC_FOLDER, template_folder=TEMPLATE_FOLDER)
@@ -78,6 +82,10 @@ def create_app():
     db = SQLAlchemy(app)
     load_models()
 
+    # Set up Flask Migrations
+    migrate = Migrate(app, db)
+
+    # Setup routes and bps
     setup_default_routes()
     load_blueprints()
 
@@ -85,6 +93,8 @@ def create_app():
     # setup_jwt()
     # jwt = JWTManager(app)
 
+    # Set up Twilio
     twilio_client = Client(app.config["TWILIO_SID"], app.config["TWILIO_AUTH_TOKEN"])
+
 
     return app

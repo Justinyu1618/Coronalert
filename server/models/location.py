@@ -20,8 +20,8 @@ class Location(db.Model):
     # last_update_datapull_id = 
     # last_update_source_id = db.relationship('Source', backref='location')
     change_flag = db.Column(db.Boolean)
-    stats = db.Column(JsonEncodedDict)
-    prev_stats = db.Column(JsonEncodedDict) #TODO: is this necessary?
+    stats = db.Column(db.JSON)
+    prev_stats = db.Column(db.JSON) #TODO: is this necessary?
     users = db.relationship('User', secondary=user_location_table, backref='location')
     
     def populate_jhu_csse(self, data, **kwargs):
@@ -51,9 +51,10 @@ class Location(db.Model):
             self.change_flag = False
         else:
             epoch = datetime.now().timestamp()
-            self.prev_stats[str(epoch)] = self.stats
+            self.stats["timestamp"] = epoch
+            self.prev_stats.insert(0, self.stats)
             self.change_flag = True
-            self.stats = stats
+            self.stats = new_stats
             self.last_change_time = datetime.now()
             if source_update_time:
                 self.source_update_time = datetime.strptime(source_update_time, "%Y-%m-%d %H:%M:%S")

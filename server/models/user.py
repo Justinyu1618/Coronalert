@@ -8,10 +8,10 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     phone_number = db.Column(db.String(50), unique=True)
-    settings = db.Column(JsonEncodedDict)
+    settings = db.Column(db.JSON)
     last_sms_timestamp = db.Column(db.DateTime)
-    prev_stats = db.Column(JsonEncodedDict)
-    places = db.Column(JsonEncodedDict)
+    prev_stats = db.Column(db.JSON)
+    places = db.Column(db.JSON)
     locations = db.relationship('Location', secondary=user_location_table, backref='user')
     last_updated = db.Column(db.DateTime)
 
@@ -19,15 +19,13 @@ class User(db.Model):
         for key, val in data.items():
             if hasattr(self, key): setattr(self, key, val)
 
+
+        if self.last_sms_timestamp is None:
+            self.last_sms_timestamp = datetime.now()
+        self.last_updated = datetime.now()
         for key, val in kwargs.items():
             if hasattr(self, key): setattr(self, key, val)
-        last_updated = datetime.now()
+        
 
     def serialize(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
-
-
-
-
-
-# Make places a dict, keyed by locations id

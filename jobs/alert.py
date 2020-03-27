@@ -1,21 +1,21 @@
 from server.models import User, Location
-from server import twilio_client, app
+from server import twilio_client, app, db
 from datetime import datetime, timedelta
-
+import json
 
 DATETIME_STR = ""
 #TODO: Option for neighboring counties
 
 ALERT_MSG = """
-    LOCATION: %s\n
-    County: %s
-        There are %s new CONFIRMED cases and %s DEATHS since %s
-        
-        Total Confirmed Cases: %s
-        Total Deaths: %s
+\nLOCATION: %s\n
+County: %s
+There are %s new CONFIRMED cases and %s DEATHS since %s
+    
+    Total Confirmed: %s
+    Total Deaths: %s
 
-    Last Updated: %s
-    Source: %s
+Last Updated: %s
+Source: %s
 """
 
 ALERT_FOOTER = """
@@ -24,8 +24,8 @@ ALERT_FOOTER = """
 def filter_users_to_alert(users):
     final = []
     for user in users:
-        freq = user["settings"]["frequency"]
-        if user.last_sms_timestamp + timedelta(seconds=freq) <= datetime.now():
+        freq = user.settings["frequency"]
+        if user.last_sms_timestamp + timedelta(seconds=int(freq)) <= datetime.now():
             final.append(user)
     return final
 
@@ -40,15 +40,18 @@ def filter_locations(user):
     return final
 
 def calculate_stat_diffs(user, loc):
-    prev_stats = user.last_sent_stats
+    prev_stats = user.prev_stats
     prev_time = user.last_sms_timestamp
     if prev_stats is None:
         # grab most recent previous stat of location
-        prev_time, prev_stats = sorted(loc.prev_stats.items(), key=lambda x: float(x[0]), reverse=True)[0]
-        prev_time = datetime.fromtimestamp(prev_time)
-    new_confirmed = loc.stats["Confirmed"] - prev_stats["Confirmed"] #TODO: don't assume always increase!
-    new_deaths = loc.stats["Deaths"] - prev_stats["Deaths"]
-    return new_confirmed, new_deaths, prev_time.strftime("%H:%M, %d-%m-%Y")
+        if loc.prev_stats:
+            prev_time, prev_stats = loc.prev_stats[0], loc.prev_stats[0].timestamp
+            prev_time = datetime.fromtimestamp(prev_time)
+        else:
+            prev_time, prev_stats = datetime.now(), loc.stats
+    new_confirmed = int(loc.stats["Confirmed"]) - int(prev_stats["Confirmed"]) #TODO: don't assume always increase!
+    new_deaths = int(loc.stats["Deaths"]) - int(prev_stats["Deaths"])
+    return new_confirmed, new_deaths, prev_time.strftime("%H:%M %p, %m/%d/%y")
 
 
 def build_alert_msg(user, locs):
@@ -58,16 +61,18 @@ def build_alert_msg(user, locs):
         county = loc.name
         new_confirmed, new_deaths, time_since = calculate_stat_diffs(user, loc)
         total_confirmed, total_deaths = loc.stats["Confirmed"], loc.stats["Deaths"]
-        last_updated, source = loc.last_update_time, "JHU CSSE"  # TODO: make this general
+        last_updated = loc.last_update_time.strftime("%H:%M %p, %m/%d/%y")
+        source = "JHU CSSE" # TODO: make this general
 
-        msg += ALERT_MSG % (new_confirmed, new_deaths, time_since, total_confirmed, total_deaths, last_updated, source)
-        msg += "\n\n"
+        msg += ALERT_MSG % (place["address"], loc.name, new_confirmed, new_deaths, \
+                             time_since, total_confirmed, total_deaths, last_updated, source)
+        msg += "\n"
     msg += ALERT_FOOTER
     return msg
 
 
 def send_msg(user, msg):
-    message = client.messages \
+    message = twilio_client.messages \
                     .create(
                          body=msg,
                          from_=app.config["TWILIO_NUMBER"],

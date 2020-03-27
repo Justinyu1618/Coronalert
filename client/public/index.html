@@ -24,10 +24,21 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <script src="https://osmnames.org/api/v1/autocomplete.js"></script>
+    <link href="https://osmnames.org/api/v1/autocomplete.css" rel="stylesheet" />
     <title>React App</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <input autocomplete="off" id="search" type="text" />
+    <script>
+      var autocomplete = new kt.OsmNamesAutocomplete(
+          'search', 'https://api.yourdomain.com/');
+
+      autocomplete.registerCallback(function(item) {
+        alert(JSON.stringify(item, ' ', 2));
+      });
+    </script>
     <div id="root"></div>
     <!--
       This HTML file is a template.

@@ -1,11 +1,11 @@
 import React from 'react';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { classnames } from './helpers';
-import './LocationInput.css'
+import './LocationInput2.css'
 
 
 
-class LocationInput extends React.Component {
+class LocationInput2 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -165,4 +165,4 @@ class LocationInput extends React.Component {
   }
 }
 
-export default LocationInput;
+export default LocationInput2;

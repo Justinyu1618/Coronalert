@@ -2,7 +2,8 @@ import React, { Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import LocationInput from './components/LocationInput'
+
+import LocationInput from './components/LocationInput/LocationInput'
 // import LocationInput2 from './components/LocationInput2'
 
 
@@ -19,7 +20,7 @@ class App extends Component {
     console.log(process.env)
     return (
       <div className="App">
-        <LocationInput />        
+        <LocationInput /> 
       </div>
     );
   }

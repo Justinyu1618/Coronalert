@@ -3,34 +3,23 @@ import logo from './logo.svg';
 import './App.css';
 
 import LocationInput from './components/LocationInput'
+// import LocationInput2 from './components/LocationInput2'
 
 
 class App extends Component {
-  componentDidMount() {
-    const script = document.createElement("script");
-    script.async = true;
-    script.src = "https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&libraries=places";
-    document.head.appendChild(script);
-  }
+  // componentDidMount() {
+  //   const script = document.createElement("script");
+  //   script.async = true;
+  //   script.src = `https://maps.googleapis.com/maps/api/js?libraries=places&key=${process.env.REACT_APP_GMAPS_API_KEY}`;
+  //   script.type = "text/javascript"
+  //   document.head.appendChild(script);
+  // }
 
   render(){
+    console.log(process.env)
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-        <LocationInput />
+        <LocationInput />        
       </div>
     );
   }

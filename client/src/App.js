@@ -1,4 +1,5 @@
 import React, { Component} from 'react';
+import { Icon, Menu } from 'semantic-ui-react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -12,12 +13,51 @@ class App extends Component {
   //   script.type = "text/javascript"
   //   document.head.appendChild(script);
   // }
+  constructor(props){
+    super(props)
+
+    this.state = {}
+
+    // this.handleNavClick = this.handleNavClick.bind(this)
+  }
+
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
 
   render(){
-    console.log(process.env)
+    const { activeItem } = this.state
     return (
       <div className="App">
+        <Menu secondary>
+          <Menu.Menu position="right">
+            <Menu.Item
+              name='sources'
+              active={activeItem === 'home'}
+              onClick={this.handleItemClick}
+            />
+            <Menu.Item
+              name='about'
+              active={activeItem === 'messages'}
+              onClick={this.handleItemClick}
+            />
+          </Menu.Menu>
+        </Menu>
         <HomeView />
+        <div className="footer">
+          <div className="footer-content">
+            <strong>Justin Yu</strong> 2020
+            <a href="https://github.com/justinyu1618/Coronalert" 
+              target="_blank" 
+              style={{marginLeft:"10px"}}>
+              <Icon 
+                size={'large'} 
+                name="github" 
+                color="grey" 
+                data-tip="Source Code"
+                link={true}
+              />
+            </a>
+          </div>
+        </div>
       </div>
     );
   }

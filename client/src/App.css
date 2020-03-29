@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 .App-logo {
@@ -35,4 +38,12 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.App .footer {
+  margin-top: auto;
+}
+
+.App .footer-content{
+  margin: 80px 0px 20px 0px;
 }

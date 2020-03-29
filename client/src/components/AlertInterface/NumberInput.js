@@ -56,7 +56,6 @@ export class NumberInput extends Component {
   render() {
     return (
       <div className="NumberInput">
-        {this.state.showErrorText ? <p className="error"> Not a valid phone number!</p> : null}
         <div className="input-container">
           <PhoneNumberInput 
             countries={["US"]}
@@ -69,6 +68,7 @@ export class NumberInput extends Component {
           />
           <Button className="submit-btn" onClick={this.handleSubmit}>Go</Button>
         </div>
+        {this.state.showErrorText ? <p className="error"> Not a valid phone number!</p> : null}
       </div>
     );
   }

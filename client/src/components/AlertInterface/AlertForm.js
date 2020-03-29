@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import LocationModal from './LocationModal/LocationModal'
 import SettingsBar from './SettingsBar'
-import { Button, Segment } from 'semantic-ui-react'
+import { Button, Segment, Header } from 'semantic-ui-react'
 
 import './AlertForm.css'
 
@@ -29,6 +29,7 @@ class AlertForm extends Component {
   handleRemove(){
     var {locModals} = this.state 
     locModals.pop()
+    console.log(locModals)
     this.setState({
       locModals: locModals
     })
@@ -42,6 +43,9 @@ class AlertForm extends Component {
     return (
       <div className="AlertForm">
         <SettingsBar />
+{/*        <Header as='h5'>
+          Locations to Track
+        </Header>*/}
         <Segment.Group>
           {this.state.locModals}
         </Segment.Group>

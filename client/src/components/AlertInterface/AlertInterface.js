@@ -7,13 +7,22 @@ class AlertInterface extends Component {
   constructor(props){
     super(props)
     this.state = {
-      displayForm: true
+      displayForm: true,
+      number: null
     }
+    
     this.displayForm = this.displayForm.bind(this)
+    this.retrieveNumber = this.retrieveNumber.bind(this)
   }
 
   displayForm(value) {
     this.setState({ displayForm: value})
+  }
+  
+  retrieveNumber(value){
+    this.setState({
+      number: value
+    })
   }
 
   render() {
@@ -22,9 +31,10 @@ class AlertInterface extends Component {
       <div className="AlertInterface">
         <NumberInput 
           displayForm={this.displayForm}
+          retrieveNumber={this.retrieveNumber}
         />
         {this.state.displayForm 
-          ? <AlertForm />
+          ? <AlertForm number={this.state.number} />
           : null
         }
         

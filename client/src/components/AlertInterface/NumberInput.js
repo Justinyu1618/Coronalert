@@ -49,6 +49,7 @@ export class NumberInput extends Component {
     }
     else{
       this.props.displayForm(true)
+      this.props.retrieveNumber(this.state.value)
       this.setState({showErrorText: false})
     }
   }

@@ -13,25 +13,33 @@ class LocationModal extends React.Component {
 
   constructor(props){
     super(props)
-    
     this.state = {
-      selection: null
+      selection: null,
+      fips: null
     }
     this.handleSelection = this.handleSelection.bind(this)
+    this.getFIPS = this.getFIPS.bind(this)
   }
 
   handleSelection(selection){
     this.setState({selection: selection})
+    this.props.retrieveLocInfo(this.props.id, selection, "location")
+  }
+  
+  getFIPS(fips){
+    this.setState({fips: fips})
+    this.props.retrieveLocInfo(this.props.id, fips, "fips")
   }
 
   render(){
+    console.log("bruh " + this.props.id)
     const locStats = this.state.selection === null
                       ? null
                       : <LocationStats />
     return (
       <div className="LocationModal">
         <LocationInput onSelect={this.handleSelection}/>
-        <LocationStats data={this.state.selection} />
+        <LocationStats data={this.state.selection} getFIPS={this.getFIPS} />
       </div>
     );
   }

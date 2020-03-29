@@ -1,0 +1,1 @@
+TIME_DISPLAY_STR = "%H:%M %p, %m/%d/%y"

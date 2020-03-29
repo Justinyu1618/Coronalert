@@ -39,7 +39,6 @@ class LocationInput extends React.Component {
    */
   onSuggestSelect(suggest: any) {
     this.props.onSelect(suggest)
-    console.log(suggest);
   }
 
   /**

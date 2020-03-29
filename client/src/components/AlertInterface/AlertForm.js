@@ -10,28 +10,71 @@ class AlertForm extends Component {
     super(props)
 
     this.state = {
-      locModals: []
+      locModals: [],
+      locData: {},
+      settings: {}
+
     }
 
     this.handleAdd = this.handleAdd.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
+    this.handleSubmit  = this.handleSubmit.bind(this)
+    this.retrieveSettings = this.retrieveSettings.bind(this)
+    this.retrieveLocInfo = this.retrieveLocInfo.bind(this)
   }
 
   handleAdd(){
-    const { locModals } = this.state
+    const { locModals, locData } = this.state
+    var key = locModals.length
+    locData[key] = {}
     this.setState({
       locModals: locModals.concat(
-        <Segment><LocationModal /></Segment>
-        )
+        <Segment key={key}>
+          <LocationModal 
+            id={key} 
+            retrieveLocInfo={this.retrieveLocInfo}
+            />
+        </Segment>
+        ),
+      locData: locData
     })
   }
   
   handleRemove(){
-    var {locModals} = this.state 
-    locModals.pop()
-    console.log(locModals)
+    var {locModals, locData} = this.state 
+    var popped = locModals.pop()
+    delete locData[popped.key]
     this.setState({
       locModals: locModals
+    })
+  }
+  
+  handleSubmit(){
+    const allData = {
+      places: Object.values(this.state.locData),
+      settings: this.state.settings,
+      number: this.props.number
+    }
+
+    console.log(allData)
+  }
+  
+  retrieveLocInfo(key, data, type){
+    const {locData} = this.state
+    if(type == "fips"){
+      locData[key].fips = data
+    }
+    else {
+      locData[key].data = data
+    }
+    this.setState({
+      locData: locData
+    })
+  }
+
+  retrieveSettings(data){
+    this.setState({
+      settings: data
     })
   }
 
@@ -39,13 +82,13 @@ class AlertForm extends Component {
     if(this.state.locModals.length === 0){
       this.handleAdd()
     }
-
+    console.log(this.state)
     return (
       <div className="AlertForm">
-        <SettingsBar />
-{/*        <Header as='h5'>
+        <SettingsBar retrieveSettings={this.retrieveSettings} />
+        <Header as='h5'>
           Locations to Track
-        </Header>*/}
+        </Header>
         <Segment.Group>
           {this.state.locModals}
         </Segment.Group>

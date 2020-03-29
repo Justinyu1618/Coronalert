@@ -40,7 +40,8 @@ class SettingsBar extends Component {
     if(value === 3){
       this.setState({
         showCustomFreq: true,
-        freqValue: 0
+        freqValue: 0,
+        reportChangesValue: true
       })
     }
     else {
@@ -49,22 +50,25 @@ class SettingsBar extends Component {
         showCustomFreq: false
       })
     }
+    this.props.retrieveSettings(this.state)
   }
 
   handleCustomChange(event){
     this.setState({
       freqValue: event.target.value
     })
-    console.log(event.target.value)
+    this.props.retrieveSettings(this.state)
   }
 
   handleRadioChange(event){
     this.setState({
       reportChangesValue: !this.state.reportChangesValue
     })
+    this.props.retrieveSettings(this.state)
   }
 
   render() {
+    
     return (
       <div className="settings-bar">
         <Segment className="settings-container">

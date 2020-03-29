@@ -1,8 +1,11 @@
 from geopy.geocoders import Nominatim
 from server.models import Location
-import json
+import json, requests
 
 geo = Nominatim(user_agent="Coronalert")
+
+# https://geo.fcc.gov/api/census/
+FCC_API_REQUEST = "https://geo.fcc.gov/api/census/block/find?latitude=%s&longitude=%s&format=json"
 
 def process_places(places):
     # location = geo.geocode(str(zipcode))

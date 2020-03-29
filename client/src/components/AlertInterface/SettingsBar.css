@@ -1,0 +1,43 @@
+.settings-bar {
+  margin-top:  10px;
+  min-width: 600px;
+}
+
+.settings-container {
+  display: flex;
+  align-items: self-start;
+  justify-content: space-around;
+}
+
+.alert-freq-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.slider {
+  margin: 0px 30px 30px 30px;
+  width: 250px;
+}
+
+.setting-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.setting-label {
+  margin-bottom: 8px;
+
+}
+
+.custom-freq {
+  width: 50px;
+  margin-right: 80px;
+}
+
+.rc-slider-dot {
+  bottom: -7px;
+  margin-left: -9px;
+  width: 18px;
+  height: 18px;
+}

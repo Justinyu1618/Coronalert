@@ -1,0 +1,7 @@
+.NumberInput .input-container {
+  display: flex;
+}
+
+.NumberInput .submit-btn {
+  margin-left: 10px;
+}

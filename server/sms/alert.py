@@ -1,5 +1,5 @@
 from server.models import User, Location
-from server import twilio_client, app, db
+from server import app, db, twilio_client
 from datetime import datetime, timedelta
 import json
 from server.constants import *

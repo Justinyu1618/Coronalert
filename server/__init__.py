@@ -97,6 +97,11 @@ def create_app():
     # Set up Flask Migrations
     migrate = Migrate(app, db)
 
+    # Set up Twilio
+    twilio_client = Client(app.config["TWILIO_SID"], app.config["TWILIO_AUTH_TOKEN"])
+
+
+
     # Setup routes and bps
     setup_default_routes()
     load_blueprints()
@@ -105,8 +110,6 @@ def create_app():
     # setup_jwt()
     # jwt = JWTManager(app)
 
-    # Set up Twilio
-    twilio_client = Client(app.config["TWILIO_SID"], app.config["TWILIO_AUTH_TOKEN"])
-
+    
 
     return app

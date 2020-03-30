@@ -41,8 +41,9 @@ def calculate_stat_diffs(user, loc):
     return new_confirmed, new_deaths, prev_time.strftime(TIME_DISPLAY_STR)
 
 
-def build_alert_msg(user):
-    locs = filter_locations(user)
+def build_alert_msg(user, locs=None):
+    locs = filter_locations(user) if locs is None else locs
+    print(f"LOCS: {locs}")
     msg = ""
     for loc in locs:
         place = [p for p in user.places if p["location_id"] == loc.id][0] # TODO: Ignores places with same location
@@ -52,14 +53,14 @@ def build_alert_msg(user):
         last_updated = loc.last_update_time.strftime(TIME_DISPLAY_STR)
         source = "JHU CSSE" # TODO: make this general
 
-        msg += ALERT_MSG % (place["address"], loc.name, new_confirmed, new_deaths, \
+        msg += ALERT_MSG % (place["data"]["description"], loc.name, new_confirmed, new_deaths, \
                              time_since, total_confirmed, total_deaths, last_updated, source)
         msg += "\n"
     msg += ALERT_FOOTER
     return msg
 
 def build_starter_msg(user):
-    msg = STARTER + build_alert_msg(user)
+    msg = STARTER + build_alert_msg(user, user.locations)
     return msg
 
 def send_msg(user, msg):

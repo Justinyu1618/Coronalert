@@ -18,8 +18,6 @@ class User(db.Model):
     def populate(self, data, **kwargs):
         for key, val in data.items():
             if hasattr(self, key): setattr(self, key, val)
-
-
         if self.last_sms_timestamp is None:
             self.last_sms_timestamp = datetime.now()
         self.last_updated = datetime.now()

@@ -29,6 +29,7 @@ def submit():
 
     # Modify places
     new_places = process_places(body["places"])
+    print(new_places)
     if not new_places:
         response["msg"] = "Could not find County of one of your addresses!"
         return jsonify(response), 400
@@ -40,7 +41,7 @@ def submit():
     new_body["phone_number"] = body["phone_number"]
 
     try:
-        user.populate(body)
+        user.populate(new_body)
         db.session.add(user)
         db.session.commit()
         response["success"] = True

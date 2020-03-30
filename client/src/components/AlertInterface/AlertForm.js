@@ -113,7 +113,7 @@ class AlertForm extends Component {
             <Button color="blue" onClick={this.handleSubmit}>
               Submit
             </Button>
-            {this.state.error?<Label basic color='red' pointing content="Error: Please try again later!"/>:null}
+            
           </div>
         </div>
       </div>

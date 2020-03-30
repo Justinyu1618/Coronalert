@@ -25,6 +25,10 @@ class AlertInterface extends Component {
     })
   }
 
+  completeSubmit(){
+    this.setState({displayForm: false, submitted: true})
+  }
+
   render() {
     console.log(this.state.displayForm)
     return (
@@ -37,7 +41,9 @@ class AlertInterface extends Component {
           ? <AlertForm number={this.state.number} />
           : <h5 className="label">Put in your phone number to get started!</h5>
         }
-        
+        {this.state.submitted
+          ? <h3>Thanks for submitting! To edit any settings, simple re-fill out this form</h3>
+          : null }
       </div>
     );
   }

@@ -26,21 +26,14 @@ build: clean
 
 # Deploy to Heroku 
 deploy:
-	echo "\n\n$(NOTIFY_FORMAT)Deploying to Heroku ... (login to Heroku CLI by running 'heroku login')$(NORMAL_FORMAT)"
+	echo "\n\n$(NOTIFY_FORMAT)Deploying to Heroku ... (do not ctrl-C)$(NORMAL_FORMAT)"
 	if ! test -f "Procfile"; then \
 	    echo "web: python3 run.py" > Procfile; \
 	fi
 	make build
-	git add -fq $(CLIENT)/build > /dev/null; git commit -mq "temp build folder for Heroku deploy"
+	git add -f $(CLIENT)/build; git commit -m "temp build folder for Heroku deploy" > /dev/null
 	git push heroku master
-	git rm -rq --cached $(CLIENT)/build; git commit -mq "rm temp build folder"
-
-
-
-	
-
-
-
+	git rm -r --cached $(CLIENT)/build; git commit -m "rm temp build folder" > /dev/null 2>&1
 
 # Lint code files
 lint-server: clean

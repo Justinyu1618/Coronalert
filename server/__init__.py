@@ -3,6 +3,7 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from twilio.rest import Client
 from flask_migrate import Migrate
+import os
 
 STATIC_FOLDER = "../client/build/static"
 TEMPLATE_FOLDER = "../client/build"

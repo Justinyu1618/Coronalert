@@ -1,1 +1,1 @@
-web: make build; python3 run.py
+web: make __heroku; python3 run.py

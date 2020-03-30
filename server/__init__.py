@@ -7,7 +7,11 @@ from flask_migrate import Migrate
 STATIC_FOLDER = "../client/build/static"
 TEMPLATE_FOLDER = "../client/build"
 CONFIG_FILE = "./config.py"    
+CONFIG_EXAMPLE = "./config.example"
 
+def load_from_env(app, *args):
+    for a in args:
+        app.config[a] = os.environ[a]
 
 def load_models():
     """
@@ -73,7 +77,14 @@ def create_app():
 
     # Set up and configure app
     app = Flask(__name__, static_folder=STATIC_FOLDER, template_folder=TEMPLATE_FOLDER)
-    # app.config.from_pyfile(CONFIG_FILE)
+    try:
+        app.config.from_pyfile(CONFIG_FILE)
+        print("Loading secret configs from file")
+    except FileNotFoundError as e:
+        env_vars = [line.split("=")[0] for line in open(CONFIG_EXAMPLE, "r")]
+        load_from_env(application, *env_vars)
+        print("Loading secret configs from env")
+
 
     if app.config["DEBUG"]:
         setup_debug()

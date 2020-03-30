@@ -51,7 +51,7 @@ def submit():
 @user_bp.route("/get_data", methods=['GET'])
 def get_data():
     response = {
-        "msg": ""
+        "msg": "",
         "success": False
     }
 

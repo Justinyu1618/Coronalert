@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 STATIC_FOLDER = "../client/build/static"
 TEMPLATE_FOLDER = "../client/build"
 CONFIG_FILE = "./config.py"    
-CONFIG_EXAMPLE = "./config.example"
+CONFIG_EXAMPLE = "server/config.example"
 
 def load_from_env(app, *args):
     for a in args:
@@ -82,7 +82,7 @@ def create_app():
         print("Loading secret configs from file")
     except FileNotFoundError as e:
         env_vars = [line.split("=")[0] for line in open(CONFIG_EXAMPLE, "r")]
-        load_from_env(application, *env_vars)
+        load_from_env(app, *env_vars)
         print("Loading secret configs from env")
 
 

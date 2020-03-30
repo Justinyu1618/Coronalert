@@ -20,6 +20,15 @@ class LocationModal extends React.Component {
     this.handleSelection = this.handleSelection.bind(this)
     this.getFIPS = this.getFIPS.bind(this)
   }
+  
+  componentDidMount() {
+    if(this.props.data != null){
+      this.setState({
+        selection: this.props.data.data,
+        fips: this.props.data.fips
+      })
+    }
+  }
 
   handleSelection(selection){
     this.setState({selection: selection})

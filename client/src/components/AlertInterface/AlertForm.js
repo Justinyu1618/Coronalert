@@ -12,8 +12,9 @@ class AlertForm extends Component {
     this.state = {
       locModals: [],
       locData: {},
-      settings: {},
-      error: false
+      settings: null,
+      error: false,
+      data: null
     }
 
     this.handleAdd = this.handleAdd.bind(this)
@@ -21,6 +22,34 @@ class AlertForm extends Component {
     this.handleSubmit  = this.handleSubmit.bind(this)
     this.retrieveSettings = this.retrieveSettings.bind(this)
     this.retrieveLocInfo = this.retrieveLocInfo.bind(this)
+  }
+  
+  componentDidMount() {
+    if(this.state.data == null){
+      User.getData(this.props.number)
+      .then(resp => {
+        console.log(resp)
+        if(resp.success){
+          var locData = {}, locModals = []
+          resp.data.places.map((val, i) => {
+            locData[i] = val
+            locModals.push(
+              <Segment key={i}>
+                <LocationModal 
+                  id={i} 
+                  retrieveLocInfo={this.retrieveLocInfo}
+                  data={val}
+                  />
+              </Segment>
+            )
+          })
+          this.setState({
+            data: resp.data,
+            settings: resp.data.settings
+          })
+        }
+      })
+    }
   }
 
   handleAdd(){
@@ -55,6 +84,14 @@ class AlertForm extends Component {
       settings: this.state.settings,
       phone_number: this.props.number
     }
+    
+    if(allData.places[0].fips == null){
+      this.setState({
+        errorMsg: "Must enter a location!",
+        error: true
+      })
+      return null
+    }
 
     User.submit(allData)
     .then(resp => {
@@ -63,7 +100,7 @@ class AlertForm extends Component {
     })
     .catch(error => {
       console.log(error)
-      this.setState({error: true})
+      this.setState({error: true, errorMsg: "Could not submit! Please try again later"})
     })
 
 
@@ -95,7 +132,7 @@ class AlertForm extends Component {
     console.log(this.state)
     return (
       <div className="AlertForm">
-        <SettingsBar retrieveSettings={this.retrieveSettings} />
+        <SettingsBar retrieveSettings={this.retrieveSettings} data={this.state.settings}/>
         <Header as='h5'>
           Locations to Track
         </Header>
@@ -109,11 +146,11 @@ class AlertForm extends Component {
               ? <Button basic onClick={this.handleRemove} content="Remove Location" icon="minus" />
               : null }
           </div>
-          <div style={{display:"flex", flexDirection:"column"}}>
+          <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
             <Button color="blue" onClick={this.handleSubmit}>
               Submit
             </Button>
-            
+            {this.state.error ? <p>{this.state.errorMsg}</p> : null}
           </div>
         </div>
       </div>

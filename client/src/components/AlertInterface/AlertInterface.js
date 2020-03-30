@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import NumberInput from "./NumberInput"
 import AlertForm from "./AlertForm"
 import "./AlertInterface.css"
+import User from "../../api/user"
 
 class AlertInterface extends Component {
   constructor(props){
     super(props)
     this.state = {
       displayForm: false,
-      number: null
+      number: null,
+      data: null
     }
     
     this.displayForm = this.displayForm.bind(this)

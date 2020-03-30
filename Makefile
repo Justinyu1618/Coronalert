@@ -33,8 +33,9 @@ deploy:
 	make build
 	git add -f $(CLIENT)/build; git commit -m "temp build folder for Heroku deploy" > /dev/null
 	git push heroku master
-	git rm -r --cached $(CLIENT)/build; git commit -m "rm temp build folder" > /dev/null 2>&1
-
+	# git rm -r --cached $(CLIENT)/build; git commit -m "rm temp build folder" > /dev/null 2>&1
+	git reset --hard HEAD~1
+	
 # Lint code files
 lint-server: clean
 	echo "\n$(NOTIFY_FORMAT)Linting server code...$(NORMAL_FORMAT)\n"

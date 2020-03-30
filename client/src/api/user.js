@@ -2,6 +2,7 @@ import Request from './request'
 
 class User {
   static submit(data) {
+    console.log(data)
     return new Request("/user/submit", {
       data: data,
       method: "POST"
@@ -9,7 +10,10 @@ class User {
   }
 
   static getData(number){
-    return new Request("/user/get_data/?number=" + number)
+    return new Request("/user/get_data", {
+      data: {number: number},
+      method: "POST"
+    })
   }
 }
 

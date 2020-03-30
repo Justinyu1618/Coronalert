@@ -26,11 +26,18 @@ const marksMap = {
 class SettingsBar extends Component {
   constructor(props){
     super(props)
-
-    this.state = {
-      showCustomFreq: false,
-      freqValue: 0,
-      reportChangesValue: true
+    
+    if(props.data == null){
+      this.state = {
+        showCustomFreq: false,
+        freqValue: 0,
+        reportChangesValue: true
+      }
+      props.retrieveSettings(this.state)
+    }
+    else{
+      this.state = props.data
+      console.log(props.data)
     }
     
     this.handleSliderChange = this.handleSliderChange.bind(this)
@@ -39,7 +46,9 @@ class SettingsBar extends Component {
   }
   
   componentDidMount() {
-    this.props.retrieveSettings(this.state)
+    if(this.props.data == null){
+      this.props.retrieveSettings(this.state)
+    }
   }
   
   handleSliderChange(value){
@@ -68,7 +77,7 @@ class SettingsBar extends Component {
 
   handleRadioChange(event){
     this.setState({
-      reportChangesValue: !this.state.reportChangesValue
+      reportChangesValue: event.target.checked
     })
     this.props.retrieveSettings(this.state)
   }
@@ -106,7 +115,7 @@ class SettingsBar extends Component {
           </div>
           <div className="setting-wrap">
             <Header as="h5" className="settings-label">Only Report Changes</Header>
-            <Radio toggle defaultChecked onChange={this.handleRadioChange}/>
+            <Radio toggle checked={this.state.reportChangesValue} onChange={this.handleRadioChange}/>
           </div>
         </Segment>
       </div>

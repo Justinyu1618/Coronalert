@@ -56,14 +56,15 @@ def submit():
     return jsonify(response)
 
 
-@user_bp.route("/get_data", methods=['GET'])
+@user_bp.route("/get_data", methods=['POST'])
 def get_data():
     response = {
         "msg": "",
         "success": False
     }
 
-    number = request.args["number"]
+    number = request.get_json()["number"]
+    print(number)
     user = User.query.filter_by(phone_number=number).first()
     if not user:
         response["msg"] = "No matching user found!"

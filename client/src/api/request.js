@@ -7,7 +7,7 @@ class Request {
     // Default request options for axios
     let options = {
       method: "GET",
-      url: "/api" + endpoint,
+      url: BASE_URL + endpoint,
     };
 
     // Add request data

@@ -24,15 +24,18 @@ def process_places(places):
     return places, locations
 
 def process_settings(inp):
-    settings = {}
-    settings["frequency"] = inp["freqValue"]
-    settings["only_changes"] = inp["reportChangesValue"]
-    settings["custom_freq"] = inp["showCustomFreq"]
-    return settings
+    return inp 
+
+    # settings = {}
+    # settings["frequency"] = inp["freqValue"]
+    # settings["only_changes"] = inp["reportChangesValue"]
+    # settings["custom_freq"] = inp["showCustomFreq"]
+    # return settings
 
 def unprocess_settings(settings):
-    out = {}
-    out["freqValue"] = settings["frequency"]
-    out["reportChangesValue"] = settings["only_changes"]
-    out["showCustomFreq"] = settings["custom_freq"]
-    return out
+    return settings 
+    # out = {}
+    # out["freqValue"] = settings["frequency"]
+    # out["reportChangesValue"] = settings["only_changes"]
+    # out["showCustomFreq"] = settings["custom_freq"]
+    # return out

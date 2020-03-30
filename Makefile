@@ -26,14 +26,19 @@ build: clean
 
 # Deploy to Heroku 
 deploy:
-	echo "\n\n$(NOTIFY_FORMAT)Installing client dependencies...$(NORMAL_FORMAT)"
-	heroku buildpacks:add --index 1 heroku/nodejs
-
-# Deploy to Heroku
-__heroku: 
-	echo "\n\n$(NOTIFY_FORMAT)Installing client dependencies...$(NORMAL_FORMAT)"
-	npm install -C $(CLIENT)
+	echo "\n\n$(NOTIFY_FORMAT)Deploying to Heroku ... (login to Heroku CLI by running 'heroku login')$(NORMAL_FORMAT)"
+	if ! test -f "Procfile"; then \
+	    echo "web: python3 run.py" > Procfile; \
+	fi
 	make build
+	git add -fq $(CLIENT)/build > /dev/null; git commit -mq "temp build folder for Heroku deploy"
+	git push heroku master
+	git rm -rq --cached $(CLIENT)/build; git commit -mq "rm temp build folder"
+
+
+
+	
+
 
 
 

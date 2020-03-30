@@ -1,1 +1,1 @@
-web: python3 run.py
+web: make build; python3 run.py

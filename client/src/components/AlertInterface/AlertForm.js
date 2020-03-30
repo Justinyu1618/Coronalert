@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import LocationModal from './LocationModal/LocationModal'
 import SettingsBar from './SettingsBar'
-import { Button, Segment, Header } from 'semantic-ui-react'
-
+import { Button, Segment, Header, Label } from 'semantic-ui-react'
+import User from '../../api/user'
 import './AlertForm.css'
 
 class AlertForm extends Component {
@@ -12,8 +12,8 @@ class AlertForm extends Component {
     this.state = {
       locModals: [],
       locData: {},
-      settings: {}
-
+      settings: {},
+      error: false
     }
 
     this.handleAdd = this.handleAdd.bind(this)
@@ -56,7 +56,17 @@ class AlertForm extends Component {
       number: this.props.number
     }
 
-    console.log(allData)
+    User.submit(allData)
+    .then(resp => {
+      this.props.completeSubmit()
+      this.setState({error: false})
+    })
+    .catch(error => {
+      console.log(error)
+      this.setState({error: true})
+    })
+
+
   }
   
   retrieveLocInfo(key, data, type){
@@ -99,7 +109,12 @@ class AlertForm extends Component {
               ? <Button basic onClick={this.handleRemove} content="Remove Location" icon="minus" />
               : null }
           </div>
-          <Button color="blue" onClick={this.handleSubmit} content="Submit"/>
+          <div style={{display:"flex", flexDirection:"column"}}>
+            <Button color="blue" onClick={this.handleSubmit}>
+              Submit
+            </Button>
+            {this.state.error?<Label basic color='red' pointing content="Error: Please try again later!"/>:null}
+          </div>
         </div>
       </div>
 

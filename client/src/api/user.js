@@ -13,4 +13,4 @@ class User {
   }
 }
 
-export default Data;
+export default User;

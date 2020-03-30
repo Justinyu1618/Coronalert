@@ -3,3 +3,8 @@
     flex-direction: column;
     align-items: center;
 }
+
+.AlertInterface .label {
+    color: grey;
+    margin-top: 15px;
+}

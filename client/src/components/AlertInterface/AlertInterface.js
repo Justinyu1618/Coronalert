@@ -7,7 +7,7 @@ class AlertInterface extends Component {
   constructor(props){
     super(props)
     this.state = {
-      displayForm: true,
+      displayForm: false,
       number: null
     }
     
@@ -35,7 +35,7 @@ class AlertInterface extends Component {
         />
         {this.state.displayForm 
           ? <AlertForm number={this.state.number} />
-          : null
+          : <h5 className="label">Put in your phone number to get started!</h5>
         }
         
       </div>

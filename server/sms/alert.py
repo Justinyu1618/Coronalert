@@ -2,25 +2,12 @@ from server.models import User, Location
 from server import twilio_client, app, db
 from datetime import datetime, timedelta
 import json
+from server.constants import *
+from server.sms.msg_templates import *
 
-DATETIME_STR = ""
 #TODO: Option for neighboring counties
 
-ALERT_MSG = """
-\nLOCATION: %s\n
-County: %s
-There are %s new CONFIRMED cases and %s DEATHS since %s
-    
-    Total Confirmed: %s
-    Total Deaths: %s
 
-Last Updated: %s
-Source: %s
-"""
-
-ALERT_FOOTER = """
-    You are recieving this because you subscribed to Coronalert. Wash your hands!
-"""
 def filter_users_to_alert(users):
     final = []
     for user in users:
@@ -45,23 +32,24 @@ def calculate_stat_diffs(user, loc):
     if prev_stats is None:
         # grab most recent previous stat of location
         if loc.prev_stats:
-            prev_time, prev_stats = loc.prev_stats[0], loc.prev_stats[0].timestamp
+            prev_stats, prev_time = loc.prev_stats[0], loc.prev_stats[0]["timestamp"]
             prev_time = datetime.fromtimestamp(prev_time)
         else:
             prev_time, prev_stats = datetime.now(), loc.stats
     new_confirmed = int(loc.stats["Confirmed"]) - int(prev_stats["Confirmed"]) #TODO: don't assume always increase!
     new_deaths = int(loc.stats["Deaths"]) - int(prev_stats["Deaths"])
-    return new_confirmed, new_deaths, prev_time.strftime("%H:%M %p, %m/%d/%y")
+    return new_confirmed, new_deaths, prev_time.strftime(TIME_DISPLAY_STR)
 
 
-def build_alert_msg(user, locs):
+def build_alert_msg(user):
+    locs = filter_locations(user)
     msg = ""
     for loc in locs:
         place = [p for p in user.places if p["location_id"] == loc.id][0] # TODO: Ignores places with same location
         county = loc.name
         new_confirmed, new_deaths, time_since = calculate_stat_diffs(user, loc)
         total_confirmed, total_deaths = loc.stats["Confirmed"], loc.stats["Deaths"]
-        last_updated = loc.last_update_time.strftime("%H:%M %p, %m/%d/%y")
+        last_updated = loc.last_update_time.strftime(TIME_DISPLAY_STR)
         source = "JHU CSSE" # TODO: make this general
 
         msg += ALERT_MSG % (place["address"], loc.name, new_confirmed, new_deaths, \
@@ -88,9 +76,5 @@ def run_alerts():
     users_to_alert = filter_users_to_alert(all_users)
     
     for user in users_to_alert:
-        locs = filter_locations(user)
-        msg = build_alert_msg(user, locs)
+        msg = build_alert_msg(user)
         send_msg(user, msg)
-
-if __name__ == '__main__':
-    run_alerts()

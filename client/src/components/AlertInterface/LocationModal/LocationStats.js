@@ -51,11 +51,14 @@ class LocationStats extends Component {
     })
     .catch(error => {
       console.log(error)
+      if(error.data != null){
+        this.setState({errorMsg: error.data.msg})
+      }
       this.setState({
-        stats: "None",
-        errorMsg: error.data.msg,
+        stats: null,
         loading: false
       })
+      
     })
   }
   

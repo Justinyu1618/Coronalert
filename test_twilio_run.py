@@ -9,7 +9,12 @@ app = Flask(__name__)
 def sms_ahoy_reply():
     """Respond to incoming messages with a friendly SMS."""
     # Start our response
+    global request
     resp = MessagingResponse()
+    print(request.args)
+    print(request.values)
+    
+
 
     # Add a message
     resp.message("Ahoy! Thanks so much for your message.")

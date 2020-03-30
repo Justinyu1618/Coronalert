@@ -6,8 +6,9 @@ from server import db
 
 BASE_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/%s.csv"
 
-def jhu_csse_loader():
-    date_str = (datetime.now() - timedelta(days=1)).strftime("%m-%d-%Y")
+def jhu_csse_loader(date=None):
+    date = datetime.now() if date is None else date
+    date_str = (date - timedelta(days=1)).strftime("%m-%d-%Y")
     url = BASE_URL % date_str
     print(url)
     resp = requests.get(url)
@@ -23,6 +24,7 @@ def jhu_csse_loader():
             num_changed += 1
         except Exception as e:
             print(f"[jhu_csse_loader] Failed to write row\nError: {e}")
+            raise e
     return num_changed
 
 def update_db_row(data):
@@ -38,13 +40,9 @@ def update_db_row(data):
     else:
         # source_update_time = datetime.strptime(data["Last Update"], "%Y-%m-%d %H:%M:%S")
         location.update_stats(new_stats)
-    print(f"Updated stats for {location.combined_key}")
     db.session.commit()
+    print(f"Updated stats for {location.combined_key}")
 
 def is_stats_same(original, new):
-    assert set(original.keys()) != set(new.keys()), "[compare_stats] Stats object keys don't match!"
+    assert set(original.keys()) != set(new.keys()), f"[compare_stats] Stats object keys don't match!\n OG: {original}, NEW: {new}"
     return all([original[k] == new[k] for k in original])
-
-
-if __name__ == '__main__':
-    jhu_csse_loader()

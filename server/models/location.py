@@ -36,14 +36,14 @@ class Location(db.Model):
         self.last_update_time = datetime.now()
         self.last_change_time = datetime.now()
         self.change_flag = True
-        self.prev_stats = {}
+        self.prev_stats = []
 
         for key, val in kwargs.items():
             if hasattr(self, key): setattr(self, key, val)
 
     def is_stats_same(self, new):
         original = self.stats
-        assert set(original.keys()) != set(new.keys()), "[is_stats_same] Stats object keys don't match!"
+        assert set(original.keys()) == set(new.keys()), f"[is_stats_same] Stats object keys don't match!\n OG: {set(original.keys())}, NEW: {set(new.keys())}"
         return all([original[k] == new[k] for k in original])
 
     def update_stats(self, new_stats, source_update_time=None): # TODO: source_update_time necessary?

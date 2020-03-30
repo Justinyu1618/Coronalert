@@ -11,14 +11,16 @@ import './SettingsBar.css'
 const marks = {
   0: 'ASAP',
   1: 'Daily',
-  2: 'Weekly',
-  3: 'Custom'
+  2: '3 Days',
+  3: 'Weekly',
+  4: 'Custom'
 }
 
 const marksMap = {
   0: 0,
   1: 1,
-  2: 7
+  2: 3,
+  3: 7
 }
 
 class SettingsBar extends Component {
@@ -36,8 +38,12 @@ class SettingsBar extends Component {
     this.handleRadioChange = this.handleRadioChange.bind(this)
   }
   
+  componentDidMount() {
+    this.props.retrieveSettings(this.state)
+  }
+  
   handleSliderChange(value){
-    if(value === 3){
+    if(value === 4){
       this.setState({
         showCustomFreq: true,
         freqValue: 0,
@@ -78,10 +84,14 @@ class SettingsBar extends Component {
               <Slider className="slider" 
                       marks={marks} 
                       min={0} 
-                      max={3} 
+                      max={4} 
                       defaultValue={0} 
                       step={null} 
-                      onChange={this.handleSliderChange}/>
+                      onChange={this.handleSliderChange}
+//                      railStyle={{backgroundColor:'#cacbcd'}}
+//                      trackStyle={{backgroundColor:'#cacbcd'}}
+//                      activeDotStyle={{borderColor: "#cacbcd"}}
+                      />
             </div>
             {this.state.showCustomFreq 
               ? <Input

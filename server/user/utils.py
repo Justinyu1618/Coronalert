@@ -12,15 +12,27 @@ def process_places(places):
     # county = [a for a in location.raw if "County" in a][0]
     # if not county:
     #     print("[parse_location]: No county info found!")
-    #     return False
+    #     return Falseg
     locations = []
-    location_fips = "25017"
     for place in places:
-        address = place["address"]
-        Loc = Location.query.filter_by(fips=location_fips).first()
+        Loc = Location.query.filter_by(fips=place["fips"]).first()
         if not Loc:
             print("[process_locations] Location not found!")
             return 
         place["location_id"] = Loc.id
         locations.append(Loc)
     return places, locations
+
+def process_settings(inp):
+    settings = {}
+    settings["frequency"] = inp["freqValue"]
+    settings["only_changes"] = inp["reportChangesValue"]
+    settings["custom_freq"] = inp["showCustomFreq"]
+    return settings
+
+def unprocess_settings(settings):
+    out = {}
+    out["freqValue"] = settings["frequency"]
+    out["reportChangesValue"] = settings["only_changes"]
+    out["showCustomFreq"] = settings["custom_freq"]
+    return out

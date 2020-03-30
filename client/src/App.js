@@ -44,7 +44,9 @@ class App extends Component {
         <HomeView />
         <div className="footer">
           <div className="footer-content">
-            <strong>Justin Yu</strong> 2020
+            <a href="https://jsyu.me" 
+              target="_blank">
+              Justin Yu</a> 2020
             <a href="https://github.com/justinyu1618/Coronalert" 
               target="_blank" 
               style={{marginLeft:"10px"}}>

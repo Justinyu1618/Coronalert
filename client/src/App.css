@@ -47,3 +47,12 @@
 .App .footer-content{
   margin: 80px 0px 20px 0px;
 }
+
+.App .footer-content a {
+  color: black;
+  font-weight: bold;
+}
+
+.App .footer-content a:hover {
+  text-decoration: underline;
+}

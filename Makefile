@@ -24,6 +24,18 @@ build: clean
 		cp $(SERVER_CONFIG_EXAMPLE) $(SERVER_CONFIG); \
 	fi
 
+# Deploy to Heroku 
+deploy:
+	echo "\n\n$(NOTIFY_FORMAT)Installing client dependencies...$(NORMAL_FORMAT)"
+
+# Deploy to Heroku
+__heroku: 
+	echo "\n\n$(NOTIFY_FORMAT)Installing client dependencies...$(NORMAL_FORMAT)"
+	npm install -C $(CLIENT)
+	make build
+	
+
+
 # Lint code files
 lint-server: clean
 	echo "\n$(NOTIFY_FORMAT)Linting server code...$(NORMAL_FORMAT)\n"

@@ -53,7 +53,7 @@ class AlertForm extends Component {
     const allData = {
       places: Object.values(this.state.locData),
       settings: this.state.settings,
-      number: this.props.number
+      phone_number: this.props.number
     }
 
     User.submit(allData)

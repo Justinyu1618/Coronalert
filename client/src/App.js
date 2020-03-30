@@ -27,7 +27,7 @@ class App extends Component {
     const { activeItem } = this.state
     return (
       <div className="App">
-        <Menu size={"massive"} secondary>
+        <Menu className="navbar" size={"massive"} secondary>
           <Menu.Menu position="right">
             <Menu.Item
               name='sources'

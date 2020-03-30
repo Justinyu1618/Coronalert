@@ -58,6 +58,9 @@ def build_alert_msg(user):
     msg += ALERT_FOOTER
     return msg
 
+def build_starter_msg(user):
+    msg = STARTER + build_alert_msg(user)
+    return msg
 
 def send_msg(user, msg):
     message = twilio_client.messages \

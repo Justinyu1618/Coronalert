@@ -13,3 +13,9 @@ Source: %s
 ALERT_FOOTER = """
     You are recieving this because you subscribed to Coronalert. Wash your hands!
 """
+
+
+STARTER = """
+    You have been sunscribed to Coronalerts! Reply 'UPDATE' for immediate updates, 'STOP' to be unsubscribed.
+    Current cases:\n
+"""

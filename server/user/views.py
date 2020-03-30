@@ -7,6 +7,7 @@ from datetime import timedelta
 import sqlalchemy
 import json
 from .utils import process_places, process_settings, unprocess_settings
+from server.sms import alert
 
 user_bp = Blueprint("user", __name__)
 
@@ -15,8 +16,10 @@ user_bp = Blueprint("user", __name__)
 def submit():
     body = request.get_json()
     user = User.query.filter_by(phone_number=body["phone_number"]).first()
+    new = False
     if not user:
        user = User()
+       new = True
 
     # Build response object
     response = {
@@ -34,7 +37,7 @@ def submit():
     new_body["places"] = new_places[0]
     new_body["locations"] = new_places[1]
     new_body["settings"] = process_settings(body["settings"])
-    new_body["phone_number"] = body["number"]
+    new_body["phone_number"] = body["phone_number"]
 
     try:
         user.populate(body)
@@ -45,6 +48,10 @@ def submit():
         raise e #print(e)
         response["msg"] = str(e)
         return jsonify(response), 400
+
+    if new:
+        msg = alert.build_starter_msg(user)
+        alert.send_msg(user, msg)
     return jsonify(response)
 
 

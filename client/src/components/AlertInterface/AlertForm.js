@@ -29,9 +29,10 @@ class AlertForm extends Component {
       User.getData(this.props.number)
       .then(resp => {
         console.log(resp)
-        if(resp.success){
+        if(resp.data.success){
           var locData = {}, locModals = []
-          resp.data.places.map((val, i) => {
+          resp.data.data.places.map((val, i) => {
+            console.log("VAL:", val)
             locData[i] = val
             locModals.push(
               <Segment key={i}>
@@ -44,8 +45,8 @@ class AlertForm extends Component {
             )
           })
           this.setState({
-            data: resp.data,
-            settings: resp.data.settings,
+            data: resp.data.data,
+            settings: resp.data.data.settings,
             locData: locData,
             locModals: locModals
           })
@@ -125,6 +126,7 @@ class AlertForm extends Component {
     this.setState({
       settings: data
     })
+    console.log(data)
   }
 
   render() {

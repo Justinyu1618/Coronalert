@@ -23,6 +23,13 @@ const marksMap = {
   3: 7
 }
 
+const invMarksMap = {
+  0: 0,
+  1: 1,
+  3: 2,
+  7: 3
+}
+
 class SettingsBar extends Component {
   constructor(props){
     super(props)
@@ -37,7 +44,6 @@ class SettingsBar extends Component {
     }
     else{
       this.state = props.data
-      console.log(props.data)
     }
     
     this.handleSliderChange = this.handleSliderChange.bind(this)
@@ -45,6 +51,12 @@ class SettingsBar extends Component {
     this.handleRadioChange = this.handleRadioChange.bind(this)
   }
   
+  componentDidUpdate(prevProps) {
+    if(prevProps.data !== this.props.data && this.props.data != null){
+      this.setState(this.props.data)
+    }
+  }
+
   componentDidMount() {
     if(this.props.data == null){
       this.props.retrieveSettings(this.state)
@@ -57,33 +69,30 @@ class SettingsBar extends Component {
         showCustomFreq: true,
         freqValue: 0,
         reportChangesValue: true
-      })
+      }, () => this.props.retrieveSettings(this.state))
     }
     else {
       this.setState({
         freqValue: marksMap[value],
         showCustomFreq: false
-      })
+      }, () => this.props.retrieveSettings(this.state))
     }
-    this.props.retrieveSettings(this.state)
+    
   }
 
   handleCustomChange(event){
     this.setState({
       freqValue: event.target.value
-    })
-    this.props.retrieveSettings(this.state)
+    }, () => this.props.retrieveSettings(this.state))
   }
 
   handleRadioChange(event){
     this.setState({
-      reportChangesValue: event.target.checked
-    })
-    this.props.retrieveSettings(this.state)
+      reportChangesValue: !this.state.reportChangesValue
+    }, () => this.props.retrieveSettings(this.state))
   }
 
   render() {
-    
     return (
       <div className="settings-bar">
         <Segment className="settings-container">
@@ -94,7 +103,8 @@ class SettingsBar extends Component {
                       marks={marks} 
                       min={0} 
                       max={4} 
-                      defaultValue={0} 
+                      defaultValue={0}
+                      value={invMarksMap[this.state.freqValue]} 
                       step={null} 
                       onChange={this.handleSliderChange}
 //                      railStyle={{backgroundColor:'#cacbcd'}}

@@ -10,23 +10,36 @@ import "./LocationInput.css"
 // add current location: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
 
 class LocationModal extends React.Component {
-
   constructor(props){
     super(props)
     this.state = {
       selection: null,
-      fips: null
+      fips: null,
+      defaultVal: null
     }
     this.handleSelection = this.handleSelection.bind(this)
     this.getFIPS = this.getFIPS.bind(this)
+    this.update = this.update
+  }
+  
+  componentDidUpdate(prevProps) {
+    if(prevProps.data !== this.props.data && this.props.data != null){
+      this.update()
+    }
   }
   
   componentDidMount() {
+    this.update()
+  }
+  
+  update(){
     if(this.props.data != null){
       this.setState({
+        defaultVal: this.props.data.data.description,
         selection: this.props.data.data,
-        fips: this.props.data.fips
+        fips: this.props.data.data.fips
       })
+      console.log(this.props.data)
     }
   }
 
@@ -46,8 +59,8 @@ class LocationModal extends React.Component {
                       : <LocationStats />
     return (
       <div className="LocationModal">
-        <LocationInput onSelect={this.handleSelection}/>
-        <LocationStats data={this.state.selection} getFIPS={this.getFIPS} />
+        <LocationInput default={this.state.defaultVal} onSelect={this.handleSelection}/>
+        <LocationStats default={this.state.fips} data={this.state.selection} getFIPS={this.getFIPS} />
       </div>
     );
   }

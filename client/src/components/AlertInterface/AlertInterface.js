@@ -20,7 +20,7 @@ class AlertInterface extends Component {
   }
 
   displayForm(value) {
-    this.setState({ displayForm: value})
+    this.setState({ displayForm: value, submitted: false})
   }
   
   retrieveNumber(value){

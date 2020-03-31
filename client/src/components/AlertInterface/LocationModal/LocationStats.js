@@ -31,11 +31,6 @@ class LocationStats extends Component {
   }
 
   getStats(){
-    // this.setState({loading: true})
-    // this.setState({
-    //   stats:testStats
-    // })
-    // this.props.getFIPS("9000")
     Data.get_data(this.props.data)
     .then(response => {
       console.log(response)

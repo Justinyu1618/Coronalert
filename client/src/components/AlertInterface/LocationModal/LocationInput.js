@@ -10,9 +10,17 @@ class LocationInput extends React.Component {
 
   constructor(props){
     super(props)
-
     this.onSuggestSelect = this.onSuggestSelect.bind(this)
+    this.state = {default: null}
+
   }
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.default!== this.props.default && this.props.default != null){
+      this.setState({default: this.props.default})
+    }
+  }
+
   /**
    * When the input receives focus
    */
@@ -58,8 +66,9 @@ class LocationInput extends React.Component {
       {label: 'Santa Clara', location: {lat: -22.066452, lng: -42.9232368}},
       {label: 'King County, Washington', location: {lat: 35.673343, lng: 139.710388}}
     ];
-
+    console.log(this.state.default)
     return (
+
       <div className="LocationInput">
         <Geosuggest
           onFocus={this.onFocus}
@@ -70,7 +79,8 @@ class LocationInput extends React.Component {
           location={new window.google.maps.LatLng(53.558572, 9.9278215)}
           country="us"
           radius="20"
-          placeholder="Enter zipcode or address"
+          placeholder={"Enter zipcode or address"}
+          initialValue={this.state.default}
         />
       </div>
     );

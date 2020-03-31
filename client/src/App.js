@@ -18,7 +18,7 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      activeItem: "sources"
+      activeItem: "home"
     }
     // this.handleNavClick = this.handleNavClick.bind(this)
   }

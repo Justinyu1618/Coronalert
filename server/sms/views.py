@@ -7,6 +7,7 @@ import sqlalchemy
 import json
 from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
+from server.user.utils import delete_user
 
 sms_bp = Blueprint("sms", __name__)
 
@@ -17,14 +18,20 @@ def sms_reply():
     resp = MessagingResponse()
 
     body = request.values.get('Body', None)
-    number = requeset.values.get('From', None)
+    number = request.values.get('From', None)
 
-    if body.lower() == "update":
-        user = User.query.filter_by(phone_number=number)
+    user = User.query.filter_by(phone_number=number)
+    if user is None:
+        return "user not found!"
+
+    if body.lower().strip() == "update":
         msg = build_update_msg(user)
-        resp.message(msg)
+    elif body.lower().strip() == "stop":
+        delete_user(user)
+        msg = "You have successfully unsubscribed!"
     else:
         msg = "I don't recognize this message"
+    resp.message(msg)
     return str(resp)
 
 

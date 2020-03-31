@@ -1,11 +1,13 @@
 ALERT_MSG = """
-\nLOCATION: %s\n
+%s
 County: %s
-There are %s new CONFIRMED cases and %s DEATHS since %s
+There have been %s new CONFIRMED cases and %s DEATHS from Covid-19 in the last %s
     
-    Total Confirmed: %s
-    Total Deaths: %s
+Total Confirmed: %s
+Total Deaths: %s
+"""
 
+ALERT_SOURCE = """
 Last Updated: %s
 Source: %s
 """
@@ -16,6 +18,6 @@ ALERT_FOOTER = """
 
 
 STARTER = """
-    You have been sunscribed to Coronalerts! Reply 'UPDATE' for immediate updates, 'STOP' to be unsubscribed.
-    Current cases:\n
+You have been sunscribed to Coronalerts! Reply 'UPDATE' for immediate updates, 'STOP' to be unsubscribed.
+Current cases:
 """

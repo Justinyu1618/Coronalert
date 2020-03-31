@@ -39,3 +39,10 @@ def unprocess_settings(settings):
     # out["reportChangesValue"] = settings["only_changes"]
     # out["showCustomFreq"] = settings["custom_freq"]
     # return out
+
+
+def delete_user(user):
+    user.locations = []
+    db.session.commit()
+    db.session.delete(user)
+    db.session.commit()

@@ -1,12 +1,12 @@
 from flask import Blueprint, request, jsonify
 from server import db
 from flask_sqlalchemy import SQLAlchemy
-from server.models import User
+from server.models import User, user_location_table
 # from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
 from datetime import timedelta
 import sqlalchemy
 import json
-from .utils import process_places, process_settings, unprocess_settings
+from .utils import process_places, process_settings, unprocess_settings, delete_user
 from server.sms import alert
 
 user_bp = Blueprint("user", __name__)
@@ -79,5 +79,22 @@ def get_data():
         return jsonify(response), 500
 
     response["data"] = data 
+    response["success"] = True
+    return jsonify(response), 200
+
+@user_bp.route("/delete", methods=['POST'])
+def delete():
+    response = {
+        "msg": "",
+        "success": False
+    }
+    try:
+        number = request.get_json()["number"]
+        user = User.query.filter_by(phone_number=number).first()
+        delete_user(user)
+    except Exception as e:
+        print(f"[user/delete] {e}")
+        response['msg'] = str(e)
+        return jsonify(response), 500
     response["success"] = True
     return jsonify(response), 200

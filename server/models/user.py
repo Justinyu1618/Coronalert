@@ -24,6 +24,10 @@ class User(db.Model):
         for key, val in kwargs.items():
             if hasattr(self, key): setattr(self, key, val)
         
-
     def serialize(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+    def update_stats(self, stats):
+        self.prev_stats = stats
+        self.last_sms_timestamp = datetime.now()
+        db.session.commit()

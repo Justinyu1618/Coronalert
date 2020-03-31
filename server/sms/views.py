@@ -19,9 +19,10 @@ def sms_reply():
 
     body = request.values.get('Body', None)
     number = request.values.get('From', None)
-
+    print(body, number)
     user = User.query.filter_by(phone_number=number)
     if user is None:
+        print("User not found!")
         return "user not found!"
 
     if body.lower().strip() == "update":
@@ -32,6 +33,7 @@ def sms_reply():
     else:
         msg = "I don't recognize this message"
     resp.message(msg)
+    print(msg)
     return str(resp)
 
 

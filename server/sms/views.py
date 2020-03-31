@@ -8,7 +8,7 @@ import json
 from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 from server.user.utils import delete_user
-from server.sms.alert import build_update_msg
+from server.sms.alert import build_alert_msg
 
 sms_bp = Blueprint("sms", __name__)
 
@@ -27,7 +27,7 @@ def sms_reply():
         return "user not found!"
 
     if body.lower().strip() == "update":
-        msg = build_update_msg(user)
+        msg = build_alert_msg(user, update_stats=False)
     elif body.lower().strip() == "stop":
         delete_user(user)
         msg = "You have successfully unsubscribed!"

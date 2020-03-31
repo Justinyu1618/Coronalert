@@ -1,0 +1,10 @@
+.SourcesView {
+    margin: 30px auto;
+    width: 50%;
+}
+
+.SourcesView .source-card {
+    min-width: 300px;
+    width: 70%;
+    margin: auto;
+}

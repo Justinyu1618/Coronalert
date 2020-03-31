@@ -28,11 +28,9 @@ def sms_reply():
 
     if body.lower().strip() == "update":
         msg = build_alert_msg(user, update_stats=False)
-    elif body.lower().strip() == "stop":
-        delete_user(user)
-        msg = "You have successfully unsubscribed!"
     else:
-        msg = "I don't recognize this message"
+        print("unrecognized message!")
+        return "unrecognized message!"
     resp.message(msg)
     print(msg)
     return str(resp)

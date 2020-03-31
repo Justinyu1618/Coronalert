@@ -1,16 +1,20 @@
 import requests, csv
 from datetime import datetime, timedelta
 from io import StringIO
-from server.models import Location
+from server.models import Location, Datapull
 from server import db
 
 BASE_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/%s.csv"
 
 def jhu_csse_loader(date=None):
     date = datetime.now() if date is None else date
-    date_str = (date - timedelta(days=1)).strftime("%m-%d-%Y")
+    date_str = (date).strftime("%m-%d-%Y")
     url = BASE_URL % date_str
     print(url)
+    existing_datapull = Datapull.query.filter_by(data_link=url).first()
+    if existing_datapull:
+        print("Data up to date!")
+        return
     resp = requests.get(url)
     if resp.status_code != 200:
         print("[jhu_csse_loader] Could not pull JHU_CSSE data!")
@@ -25,6 +29,15 @@ def jhu_csse_loader(date=None):
         except Exception as e:
             print(f"[jhu_csse_loader] Failed to write row\nError: {e}")
             raise e
+
+    new_datapull = Datapull()
+    new_datapull.populate({
+        "source_name": "JHU CSSE",
+        "data_link": url,
+        "source_update_timestamp": datetime.now(),
+    })
+    db.session.add(new_datapull)
+    db.session.commit()
     return num_changed
 
 def update_db_row(data):

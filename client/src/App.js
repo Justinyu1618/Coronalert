@@ -4,6 +4,8 @@ import logo from './logo.svg';
 import './App.css';
 
 import HomeView from './components/HomeView'
+import SourcesView from './components/SourcesView'
+import AboutView from './components/AboutView'
 
 class App extends Component {
   // componentDidMount() {
@@ -15,9 +17,9 @@ class App extends Component {
   // }
   constructor(props){
     super(props)
-
-    this.state = {}
-
+    this.state = {
+      activeItem: "sources"
+    }
     // this.handleNavClick = this.handleNavClick.bind(this)
   }
 
@@ -25,23 +27,40 @@ class App extends Component {
 
   render(){
     const { activeItem } = this.state
+    var activeView = null
+    console.log(activeItem)
+    if(activeItem === "about"){
+      activeView = <AboutView />
+    }
+    else if(activeItem === "sources"){
+      activeView = <SourcesView />
+    }
+    else {
+      activeView = <HomeView />
+    }
+    console.log(activeView)
     return (
       <div className="App">
         <Menu className="navbar" size={"massive"} secondary>
+
           <Menu.Menu position="right">
             <Menu.Item
+              name='home'
+              onClick={this.handleItemClick}
+            />
+            <Menu.Item
               name='sources'
-              active={activeItem === 'home'}
+              active={activeItem === 'sources'}
               onClick={this.handleItemClick}
             />
             <Menu.Item
               name='about'
-              active={activeItem === 'messages'}
+              active={activeItem === 'about'}
               onClick={this.handleItemClick}
             />
           </Menu.Menu>
         </Menu>
-        <HomeView />
+        {activeView}
         <div className="footer">
           <div className="footer-content">
             <a href="https://jsyu.me" 

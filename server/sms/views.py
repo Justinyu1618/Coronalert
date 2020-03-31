@@ -21,7 +21,7 @@ def sms_reply():
     body = request.values.get('Body', None)
     number = request.values.get('From', None)
     print(body, number)
-    user = User.query.filter_by(phone_number=number)
+    user = User.query.filter_by(phone_number=number).first()
     if user is None:
         print("User not found!")
         return "user not found!"

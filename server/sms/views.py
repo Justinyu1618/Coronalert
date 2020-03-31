@@ -8,10 +8,11 @@ import json
 from flask import Flask, request
 from twilio.twiml.messaging_response import MessagingResponse
 from server.user.utils import delete_user
+from server.sms.alert import build_update_msg
 
 sms_bp = Blueprint("sms", __name__)
 
-@sms_bp.route("/sms", methods=['GET', 'POST'])
+@sms_bp.route("/reply", methods=['GET', 'POST'])
 def sms_reply():
     """Respond to incoming messages with a friendly SMS."""
     # Start our response

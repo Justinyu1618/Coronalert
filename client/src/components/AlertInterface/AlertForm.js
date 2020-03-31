@@ -45,7 +45,9 @@ class AlertForm extends Component {
           })
           this.setState({
             data: resp.data,
-            settings: resp.data.settings
+            settings: resp.data.settings,
+            locData: locData,
+            locModals: locModals
           })
         }
       })

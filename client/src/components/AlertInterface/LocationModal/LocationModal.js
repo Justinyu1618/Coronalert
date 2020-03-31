@@ -41,7 +41,6 @@ class LocationModal extends React.Component {
   }
 
   render(){
-    console.log("bruh " + this.props.id)
     const locStats = this.state.selection === null
                       ? null
                       : <LocationStats />

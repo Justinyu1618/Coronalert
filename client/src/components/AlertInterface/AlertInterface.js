@@ -10,11 +10,13 @@ class AlertInterface extends Component {
     this.state = {
       displayForm: false,
       number: null,
-      data: null
+      data: null,
+      submitted: false
     }
     
     this.displayForm = this.displayForm.bind(this)
     this.retrieveNumber = this.retrieveNumber.bind(this)
+    this.completeSubmit = this.completeSubmit.bind(this)
   }
 
   displayForm(value) {
@@ -32,7 +34,6 @@ class AlertInterface extends Component {
   }
 
   render() {
-    console.log(this.state.displayForm)
     return (
       <div className="AlertInterface">
         <NumberInput 
@@ -40,8 +41,8 @@ class AlertInterface extends Component {
           retrieveNumber={this.retrieveNumber}
         />
         {this.state.displayForm 
-          ? <AlertForm number={this.state.number} />
-          : <h5 className="label">Put in your phone number to get started!</h5>
+          ? <AlertForm number={this.state.number} completeSubmit={this.completeSubmit} />
+          : <h5 className="label">Put in your phone number to get started</h5>
         }
         {this.state.submitted
           ? <h3>Thanks for submitting! To edit any settings, simple re-fill out this form</h3>

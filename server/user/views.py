@@ -79,4 +79,5 @@ def get_data():
         return jsonify(response), 500
 
     response["data"] = data 
+    response["success"] = True
     return jsonify(response), 200

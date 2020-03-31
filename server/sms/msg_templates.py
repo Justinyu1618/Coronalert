@@ -13,7 +13,7 @@ Source: %s
 """
 
 ALERT_FOOTER = """
-    You are recieving this because you subscribed to Coronalert. Wash your hands!
+You are recieving this because you subscribed to Coronalert.
 """
 
 

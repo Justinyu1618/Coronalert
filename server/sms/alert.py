@@ -61,8 +61,6 @@ def build_alert_msg(user, locs=None, update_stats=True):
     last_updated = loc.last_update_time.strftime(TIME_DISPLAY_STR)
     source = "JHU CSSE" # TODO: make this general
     msg += ALERT_SOURCE % (last_updated, source)
-    msg += ALERT_FOOTER
-
     if update_stats:
         stats = {loc.id:loc.stats for loc in locs}
         user.update_stats(stats)

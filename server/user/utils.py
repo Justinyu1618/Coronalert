@@ -1,5 +1,6 @@
 from geopy.geocoders import Nominatim
 from server.models import Location
+from server import db
 import json, requests
 
 geo = Nominatim(user_agent="Coronalert")

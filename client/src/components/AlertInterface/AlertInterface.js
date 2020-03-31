@@ -45,7 +45,7 @@ class AlertInterface extends Component {
           : <h5 className="label">Put in your phone number to get started</h5>
         }
         {this.state.submitted
-          ? <h3>Thanks for submitting! To edit any settings, simple re-fill out this form</h3>
+          ? <h4 style={{color:'grey'}}>Thanks for submitting! To edit any settings, simply re-fill out this form</h4>
           : null }
       </div>
     );

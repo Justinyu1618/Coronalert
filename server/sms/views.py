@@ -27,7 +27,7 @@ def sms_reply():
         return "user not found!"
 
     if body.lower().strip() == "update":
-        msg = build_alert_msg(user, update_stats=False)
+        msg = build_alert_msg(user)
     elif body.lower().strip() == "delete":
         delete_user(user)
     else:

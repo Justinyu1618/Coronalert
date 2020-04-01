@@ -11,8 +11,11 @@ from server.sms.msg_templates import *
 def filter_users_to_alert(users):
     final = []
     for user in users:
+        print((datetime.now() - user.last_sms_timestamp).seconds)
         freq = user.settings["freqValue"]
-        if user.last_sms_timestamp + timedelta(days=int(freq)) <= datetime.now():
+        print(user.last_sms_timestamp + timedelta(days=int(freq)))
+        print(datetime.now())
+        if user.last_sms_timestamp + timedelta(days=int(freq)) <= datetime.utcnow():
             final.append(user)
         else:
             print(f"User {user.phone_number}: Not time yet")
@@ -41,6 +44,7 @@ def calculate_stat_diffs(user, loc):
     new_confirmed = int(loc.stats["Confirmed"]) - int(prev_stats["Confirmed"]) #TODO: don't assume always increase!
     new_deaths = int(loc.stats["Deaths"]) - int(prev_stats["Deaths"])
     time_since = (datetime.now() - prev_time).seconds / (60*60*24)
+    print(time_since)
     time_since = f"{round(time_since * 24)} hours" if time_since < 1 else f"{round(time_since)} days"
     return new_confirmed, new_deaths, time_since
 
@@ -60,7 +64,6 @@ def build_alert_msg(user, locs=None, update_stats=True):
 
         total_confirmed, total_deaths = loc.stats["Confirmed"], loc.stats["Deaths"]
         msg += ALERT_MSG_TOTAL % (total_confirmed, total_deaths)
-        msg += "\n"
     last_updated = loc.last_update_time.strftime(TIME_DISPLAY_STR)
     source = "JHU CSSE" # TODO: make this general
     msg += ALERT_SOURCE % (last_updated, source)

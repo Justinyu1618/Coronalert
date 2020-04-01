@@ -28,6 +28,8 @@ class User(db.Model):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     def update_stats(self, stats):
-        self.prev_stats = stats
+        self.prev_stats = {} if self.prev_stats is None else self.prev_stats
+        for k,v in stats.items():
+            self.prev_stats[k] = v
         self.last_sms_timestamp = datetime.now()
         db.session.commit()

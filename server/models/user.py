@@ -29,8 +29,9 @@ class User(db.Model):
 
     def update_stats(self, stats):
         print(f"updating stats:\nPrev: {self.prev_stats}\nNew:{stats}")
-        self.prev_stats = {} if self.prev_stats is None else self.prev_stats
+        temp_stats = {} if self.prev_stats is None else self.prev_stats
         for k,v in stats.items():
-            self.prev_stats[k] = v
+            temp_stats[k] = v
+        self.prev_stats = temp_stats
         self.last_sms_timestamp = datetime.now()
         db.session.commit()

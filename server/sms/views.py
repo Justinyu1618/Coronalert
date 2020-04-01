@@ -28,6 +28,8 @@ def sms_reply():
 
     if body.lower().strip() == "update":
         msg = build_alert_msg(user, update_stats=False)
+    elif body.lower().strip() == "delete":
+        delete_user(user)
     else:
         print("unrecognized message!")
         return "unrecognized message!"

@@ -29,15 +29,15 @@ def filter_locations(user):
     return final
 
 def calculate_stat_diffs(user, loc):
-    prev_stats = None if not user.prev_stats or str(loc.id) not in user.prev_stats else user.prev_stats[str(loc.id)]
+    prev_stats = user.prev_stats[str(loc.id)]
     prev_time = user.last_sms_timestamp
-    if prev_stats is None:
-        # grab most recent previous stat of location
-        if loc.prev_stats:
-            prev_stats, prev_time = loc.prev_stats[0], loc.prev_stats[0]["timestamp"]
-            prev_time = datetime.fromtimestamp(prev_time)
-        else:
-            prev_time, prev_stats = datetime.now(), loc.stats
+    # if prev_stats is None:
+    #     # grab most recent previous stat of location
+    #     if loc.prev_stats:
+    #         prev_stats, prev_time = loc.prev_stats[0], loc.prev_stats[0]["timestamp"]
+    #         prev_time = datetime.fromtimestamp(prev_time)
+    #     else:
+    #         prev_time, prev_stats = datetime.now(), loc.stats
     new_confirmed = int(loc.stats["Confirmed"]) - int(prev_stats["Confirmed"]) #TODO: don't assume always increase!
     new_deaths = int(loc.stats["Deaths"]) - int(prev_stats["Deaths"])
     time_since = (datetime.now() - prev_time).seconds / (60*60*24)
@@ -52,11 +52,14 @@ def build_alert_msg(user, locs=None, update_stats=True):
     for loc in locs:
         place = [p for p in user.places if p["location_id"] == loc.id][0] # TODO: Ignores places with same location
         county = loc.name
-        new_confirmed, new_deaths, time_since = calculate_stat_diffs(user, loc)
-        total_confirmed, total_deaths = loc.stats["Confirmed"], loc.stats["Deaths"]
+        msg += ALERT_MSG_LOCATION % (place["data"]["description"], loc.name)
 
-        msg += ALERT_MSG % (place["data"]["description"], loc.name, new_confirmed, new_deaths, \
-                             time_since, total_confirmed, total_deaths)
+        if user.prev_stats and str(loc.id) in user.prev_stats:
+            new_confirmed, new_deaths, time_since = calculate_stat_diffs(user, loc)
+            msg += ALERT_MSG_NEW % (new_confirmed, new_deaths, time_since)
+
+        total_confirmed, total_deaths = loc.stats["Confirmed"], loc.stats["Deaths"]
+        msg += ALERT_MSG_TOTAL % (total_confirmed, total_deaths)
         msg += "\n"
     last_updated = loc.last_update_time.strftime(TIME_DISPLAY_STR)
     source = "JHU CSSE" # TODO: make this general

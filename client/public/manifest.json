@@ -11,7 +11,7 @@
       "src": "coronavirus.png",
       "type": "image/png",
       "sizes": "344x344"
-    },
+    }
   ],
   "start_url": ".",
   "display": "standalone",

@@ -11,13 +11,29 @@ export class NumberInput extends Component {
     this.state = {
       value: "",
       showErrorText: false,
-      showLocationInput: false
+      showLocationInput: false,
+      _huge: true
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleKeyUp = this.handleKeyUp.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.beResponsive = this.beResponsive.bind(this);
+  }
+  
+  componentDidMount() {
+    var x = window.matchMedia("(max-width: 500px)")
+    this.beResponsive(x)
+    x.addListener(this.beResponsive)
+  }
+
+  beResponsive(x){
+    console.log(x)
+    var element = document.getElementsByClassName("PhoneInput")[0]
+    this.setState({
+      huge:!x.matches
+    })
   }
 
   keyCodeIsNumber(code) {
@@ -64,7 +80,8 @@ export class NumberInput extends Component {
             onChange={this.handleChange} 
             limitMaxLength={true}
             addInternationalOption={false}
-            className="ui huge input"
+            className={this.state.huge ? "ui input huge" : "ui input medium"}
+            id="number-input"
             onKeyPress={this.handleKeyDown}
           />
           <Button className="submit-btn" onClick={this.handleSubmit}>Go</Button>

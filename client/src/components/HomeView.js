@@ -16,7 +16,7 @@ class HomeView extends Component {
   render() {
     return (
       <div className="HomeView">
-        <Header style={{fontSize:'3em'}} as='h1' className="main-title"> Coronalert 
+        <Header as='h1' id="main-title"> Coronalert 
           <Header.Subheader style={{fontSize: '0.5em'}}>
             An Amber Alert system for Covid-19 cases in your area.
           </Header.Subheader>

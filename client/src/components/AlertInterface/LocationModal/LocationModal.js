@@ -5,7 +5,7 @@ import { Segment } from 'semantic-ui-react'
 
 import LocationInput from './LocationInput'
 import LocationStats from './LocationStats'
-import "./LocationInput.css"
+import "./LocationModal.css"
 
 // add current location: https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
 

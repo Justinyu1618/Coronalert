@@ -140,7 +140,7 @@ class AlertForm extends Component {
         <Header as='h5'>
           Locations to Track
         </Header>
-        <Segment.Group>
+        <Segment.Group className="location-modal-group">
           {this.state.locModals}
         </Segment.Group>
         <div className="button-group">

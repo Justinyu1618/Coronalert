@@ -42,3 +42,14 @@
   width: 18px;
   height: 18px;
 }
+
+@media (max-width: 500px){
+  .settings-container {
+    width: 300px;
+    margin: auto !important;
+    flex-wrap: wrap;
+  }
+  .slider {
+    width: 200px;
+  }
+}

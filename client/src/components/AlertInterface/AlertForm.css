@@ -3,3 +3,13 @@
     justify-content: space-between
 }
 
+@media (max-width: 500px){
+  .location-modal-group{
+    width: 300px;
+    margin: auto !important;
+  }
+  .button-group {
+    width: 300px;
+    margin: 1em auto !important;
+  }
+}

@@ -98,3 +98,16 @@ def delete():
         return jsonify(response), 500
     response["success"] = True
     return jsonify(response), 200
+
+
+
+
+
+stats = {"1277": {'Confirmed': '1340', 'Deaths': '17', 'Recovered': '0', 'Active': '0'}, 1: {'Confirmed': '4', 'Deaths': '0', 'Recovered': '0', 'Active': '0'}}
+
+@user_bp.route("/test", methods=['POST'])
+def test():
+    user = User.query.filter_by(id=6).first()
+    user.update_stats(stats)
+    db.session.commit()
+    return "hi", 200

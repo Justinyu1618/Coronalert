@@ -18,6 +18,6 @@ You are recieving this because you subscribed to Coronalert.
 
 
 STARTER = """
-You have been sunscribed to Coronalerts! Reply 'UPDATE' for immediate updates, 'STOP' to be unsubscribed.
+You have been subscribed to Coronalerts! Reply 'UPDATE' for immediate updates, 'STOP' to be unsubscribed.
 Current cases:
 """

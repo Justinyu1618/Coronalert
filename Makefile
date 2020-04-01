@@ -36,6 +36,18 @@ deploy:
 	git rm -r --cached $(CLIENT)/build; git commit -m "rm temp build folder" > /dev/null 2>&1
 	# git reset --hard HEAD~1
 	
+# Deploy to Heroku 
+deploy-prod:
+	echo "\n\n$(NOTIFY_FORMAT)Deploying to Heroku ... (do not ctrl-C)$(NORMAL_FORMAT)"
+	if ! test -f "Procfile"; then \
+	    echo "web: python3 run.py" > Procfile; \
+	fi
+	make build
+	git add -f $(CLIENT)/build; git commit -m "temp build folder for Heroku deploy" > /dev/null
+	git push heroku-prod master
+	git rm -r --cached $(CLIENT)/build; git commit -m "rm temp build folder" > /dev/null 2>&1
+	# git reset --hard HEAD~1
+
 # Lint code files
 lint-server: clean
 	echo "\n$(NOTIFY_FORMAT)Linting server code...$(NORMAL_FORMAT)\n"

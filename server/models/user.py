@@ -28,6 +28,7 @@ class User(db.Model):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
     def update_stats(self, stats):
+        print(f"updating stats:\nPrev: {self.prev_stats}\nNew:{stats}")
         self.prev_stats = {} if self.prev_stats is None else self.prev_stats
         for k,v in stats.items():
             self.prev_stats[k] = v

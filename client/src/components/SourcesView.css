@@ -3,11 +3,27 @@
     width: 50%;
 }
 
-.SourcesView p{
+.SourcesView p {
     font-size: 1.3em;
 }
 .SourcesView .source-card {
     min-width: 300px;
     width: 70%;
     margin: auto;
+}
+
+@media (max-width: 500px){
+    .SourcesView {
+        margin: 30px auto;
+        width: 75% !important;
+    }
+
+    .SourcesView p {
+        font-size: 1em;
+    }
+
+    .SourcesView .source-card {
+        width: 100% !important;
+        margin: auto;
+    }
 }

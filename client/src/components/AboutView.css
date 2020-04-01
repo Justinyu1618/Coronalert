@@ -1,10 +1,10 @@
-.SourcesView {
-    margin: 30px auto;
-    width: 50%;
+.AboutView p {
+    font-size: 1.3em;
 }
 
-.SourcesView .source-card {
-    min-width: 300px;
-    width: 70%;
-    margin: auto;
+@media (max-width: 500px){
+    .AboutView p {
+        font-size: 1em;
+    }
+
 }

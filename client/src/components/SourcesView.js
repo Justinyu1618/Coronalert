@@ -19,7 +19,7 @@ class SourcesView extends Component {
       <div className="SourcesView">
         <Header as='h1' className="main-title"> Sources
         </Header>
-        <p style={{fontSize:"1.3em"}}>
+        <p>
             Coronalert pulls from open source datasets that are regularly updated.<br/>Currently, the highest resolution data available is at the <b>county-level</b>.
         </p>
         <Card.Group className="source-card">

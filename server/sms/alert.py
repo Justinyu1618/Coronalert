@@ -43,10 +43,14 @@ def calculate_stat_diffs(user, loc):
     #         prev_time, prev_stats = datetime.now(), loc.stats
     new_confirmed = int(loc.stats["Confirmed"]) - int(prev_stats["Confirmed"]) #TODO: don't assume always increase!
     new_deaths = int(loc.stats["Deaths"]) - int(prev_stats["Deaths"])
+    print(f"Calculating stats diff:\nNOW: {datetime.now()}\nPREV: {prev_time}")
     time_since = (datetime.now() - prev_time).seconds / (60*60*24)
-    print(time_since)
-    time_since = f"{round(time_since * 24)} hours" if time_since < 1 else f"{round(time_since)} days"
-    return new_confirmed, new_deaths, time_since
+    time_since_str = f"{round(time_since * 24)} hours" if time_since < 1 else f"{round(time_since)} days"
+   
+    # TODO: fix issue where server calls to datetime.now() is in UTC but mine aren't
+    if round(time_since * 24) == 0 or round(time_since * 24) == 4 or round(time_since * 24) == 20:
+        time_since_str = None
+    return new_confirmed, new_deaths, time_since_str
 
 
 def build_alert_msg(user, locs=None, update_stats=True):
@@ -60,8 +64,8 @@ def build_alert_msg(user, locs=None, update_stats=True):
 
         if user.prev_stats and str(loc.id) in user.prev_stats:
             new_confirmed, new_deaths, time_since = calculate_stat_diffs(user, loc)
-            msg += ALERT_MSG_NEW % (new_confirmed, new_deaths, time_since)
-
+            if time_since is not None:
+                msg += ALERT_MSG_NEW % (new_confirmed, new_deaths, time_since)
         total_confirmed, total_deaths = loc.stats["Confirmed"], loc.stats["Deaths"]
         msg += ALERT_MSG_TOTAL % (total_confirmed, total_deaths)
     last_updated = loc.last_update_time.strftime(TIME_DISPLAY_STR)

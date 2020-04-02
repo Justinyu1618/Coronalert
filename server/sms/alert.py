@@ -11,10 +11,10 @@ from server.sms.msg_templates import *
 def filter_users_to_alert(users):
     final = []
     for user in users:
-        print((datetime.now() - user.last_sms_timestamp).seconds)
+        # print((datetime.now() - user.last_sms_timestamp).seconds)
         freq = user.settings["freqValue"]
-        print(user.last_sms_timestamp + timedelta(days=int(freq)))
-        print(datetime.now())
+        # print(user.last_sms_timestamp + timedelta(days=int(freq)))
+        # print(datetime.now())
         if user.last_sms_timestamp + timedelta(days=int(freq)) <= datetime.utcnow():
             final.append(user)
         else:
@@ -22,11 +22,11 @@ def filter_users_to_alert(users):
     return final
 
 def filter_locations(user):
-    print(f"LOCATIONS: {user.locations}")
     final = []
     for loc in user.locations:
         if user.settings["reportChangesValue"]:
             if loc.last_change_time <= user.last_sms_timestamp:
+                print(f"Location {loc.id}: not changed")
                 continue
         final.append(loc)
     return final
@@ -55,7 +55,7 @@ def calculate_stat_diffs(user, loc):
 
 def build_alert_msg(user, locs=None, update_stats=True):
     locs = user.locations if locs is None else locs
-    print(f"LOCS: {locs}")
+    print(f"LOCs TO SEND: {locs}")
     msg = ""
     for loc in locs:
         place = [p for p in user.places if p["location_id"] == loc.id][0] # TODO: Ignores places with same location
@@ -96,9 +96,13 @@ def run_alerts():
     all_locations = Location.query.all()
     users_to_alert = filter_users_to_alert(all_users)
     for user in users_to_alert:
-        locs = filter_locations(user)
-        if len(locs) == 0:
-            print(f"User {user.phone_number}: No locations updated!")
-            continue
-        msg = build_alert_msg(user, locs)
-        send_msg(user, msg)
+        try:
+            locs = filter_locations(user)
+            if len(locs) == 0:
+                print(f"User {user.phone_number}: No locations updated!")
+                continue
+            msg = build_alert_msg(user, locs)
+            send_msg(user, msg)
+        except Exception as e:
+            print(f"Could not send message to {user.phone_number}!")
+            print(f"Error: {e}")

@@ -31,7 +31,7 @@ deploy:
 	    echo "web: python3 run.py" > Procfile; \
 	fi
 	make build
-	git add -f $(CLIENT)/build; git commit -m "temp build folder for Heroku deploy" > /dev/null
+	git add -A; git add -f $(CLIENT)/build; git commit -m "temp build folder for Heroku deploy" > /dev/null
 	git push heroku master
 	git rm -r --cached $(CLIENT)/build; git commit -m "rm temp build folder" > /dev/null 2>&1
 	# git reset --hard HEAD~1
@@ -43,9 +43,9 @@ deploy-prod:
 	    echo "web: python3 run.py" > Procfile; \
 	fi
 	make build
-	git add -f $(CLIENT)/build; git commit -m "temp build folder for Heroku deploy" > /dev/null
+	git add -A; git add -f $(CLIENT)/build; git commit -m "build folder for Heroku deploy" > /dev/null
 	git push heroku-prod master
-	git rm -r --cached $(CLIENT)/build; git commit -m "rm temp build folder" > /dev/null 2>&1
+	# git rm -r --cached $(CLIENT)/build; git commit -m "rm temp build folder" > /dev/null 2>&1
 	# git reset --hard HEAD~1
 
 # Lint code files

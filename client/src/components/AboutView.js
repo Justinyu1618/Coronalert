@@ -32,7 +32,7 @@ class AboutView extends Component {
           <br/>
         </p>
         <p>
-          This was a submission for the <a href="https://covid-global-hackathon.devpost.com">Covid-19 Global Hackathon 1</a>
+          This was a submission for the <a href="https://covid-global-hackathon.devpost.com">Covid-19 Global Hackathon</a>
         </p>
         
       </div>

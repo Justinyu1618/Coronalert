@@ -98,7 +98,7 @@ class SettingsBar extends Component {
         <Segment className="settings-container">
           <div className="alert-freq-wrap">
             <div className="setting-wrap">
-              <Header as="h5" className="settings-label">Alert Frequency</Header>
+              <Header as="h5" className="settings-label">Maximum Alert Frequency</Header>
               <Slider className="slider" 
                       marks={marks} 
                       min={0} 

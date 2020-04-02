@@ -30,6 +30,8 @@ def sms_reply():
         msg = build_alert_msg(user)
     elif body.lower().strip() == "delete":
         delete_user(user)
+    # elif body.lower().strip() == "covid":
+    #     user.flag(True)
     else:
         print("unrecognized message!")
         return "unrecognized message!"

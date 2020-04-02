@@ -87,7 +87,8 @@ def send_msg(user, msg, update_stats=True):
                          from_=app.config["TWILIO_NUMBER"],
                          to=user.phone_number
                      )
-    print(f"Sent Message. ID: {message.sid}")
+    print(msg)
+    print(f"Sent Message. User: {user.phone_number}, ID: {message.sid}")
 
 
 

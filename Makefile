@@ -45,7 +45,7 @@ deploy-prod:
 	make build
 	git add -A; git add -f $(CLIENT)/build; git commit -m "build folder for Heroku deploy" > /dev/null
 	git push heroku-prod master
-	# git rm -r --cached $(CLIENT)/build; git commit -m "rm temp build folder" > /dev/null 2>&1
+	git rm -r --cached $(CLIENT)/build; git commit -m "rm temp build folder" > /dev/null 2>&1
 	# git reset --hard HEAD~1
 
 # Lint code files

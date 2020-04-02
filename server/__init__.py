@@ -113,3 +113,18 @@ def create_app():
     
 
     return app
+
+
+
+
+
+
+"""
+
+TODO:
+ - Self-reporting feature for sms
+ - Domain name 
+ - Manifest stuff
+
+
+"""

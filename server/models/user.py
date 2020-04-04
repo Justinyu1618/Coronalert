@@ -14,7 +14,7 @@ class User(db.Model):
     places = db.Column(db.JSON)
     locations = db.relationship('Location', secondary=user_location_table, backref='user')
     last_updated = db.Column(db.DateTime)
-    # flagged = db.Column(db.Boolean)
+    flagged = db.Column(db.Boolean)
 
     def populate(self, data, **kwargs):
         # self.flagged = False

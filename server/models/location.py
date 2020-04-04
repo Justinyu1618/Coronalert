@@ -9,7 +9,7 @@ class Location(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fips = db.Column(db.String(50), unique=True)
     name = db.Column(db.String)
-    combined_key = db.Column(db.String, unique=True)
+    combined_key = db.Column(db.String) #, unique=True) TODO: Migrate db to reflect this change
     province_state = db.Column(db.String)
     country_region = db.Column(db.String)
     lat_ = db.Column(db.Float)

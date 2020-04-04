@@ -28,6 +28,7 @@ def sms_reply():
 
     if body.lower().strip() == "update":
         msg = build_alert_msg(user)
+        print(f"Sent Message. User: {user.phone_number}")
     elif body.lower().strip() == "delete":
         delete_user(user)
         return "None"

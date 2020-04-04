@@ -28,7 +28,7 @@ def jhu_csse_loader(date=None):
             num_changed += 1
         except Exception as e:
             print(f"[jhu_csse_loader] Failed to write row\nError: {e}")
-            raise e
+            print e
 
     new_datapull = Datapull()
     new_datapull.populate({

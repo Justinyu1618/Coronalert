@@ -44,11 +44,12 @@ def calculate_stat_diffs(user, loc):
     new_confirmed = int(loc.stats["Confirmed"]) - int(prev_stats["Confirmed"]) #TODO: don't assume always increase!
     new_deaths = int(loc.stats["Deaths"]) - int(prev_stats["Deaths"])
     print(f"Calculating stats diff:\nNOW: {datetime.now()}\nPREV: {prev_time}")
-    time_since = (datetime.now() - prev_time).seconds / (60*60*24)
-    time_since_str = f"{round(time_since * 24)} hours" if time_since < 1 else f"{round(time_since)} days"
+    time_diff = datetime.now() - prev_time
+    print(f"Time Diff: {time_diff}")
+    time_since_str = f"{round(time_diff.seconds / 3600)} hours" if time_diff.days < 1 else f"{time_diff.days} days"
    
     # TODO: fix issue where server calls to datetime.now() is in UTC but mine aren't
-    if round(time_since * 24) == 0 or round(time_since * 24) == 4 or round(time_since * 24) == 20:
+    if round(time_diff.total_seconds() / 3600) == 0:
         time_since_str = None
     return new_confirmed, new_deaths, time_since_str
 

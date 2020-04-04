@@ -62,7 +62,6 @@ def build_alert_msg(user, locs=None, update_stats=True):
         place = [p for p in user.places if p["location_id"] == loc.id][0] # TODO: Ignores places with same location
         county = loc.name
         msg += ALERT_MSG_LOCATION % (place["data"]["description"], loc.name)
-
         if user.prev_stats and str(loc.id) in user.prev_stats:
             new_confirmed, new_deaths, time_since = calculate_stat_diffs(user, loc)
             if time_since is not None:
@@ -75,6 +74,7 @@ def build_alert_msg(user, locs=None, update_stats=True):
     if update_stats:
         stats = {loc.id:loc.stats for loc in locs}
         user.update_stats(stats)
+    print(msg)
     return msg
 
 def build_starter_msg(user):
@@ -88,7 +88,7 @@ def send_msg(user, msg, update_stats=True):
                          from_=app.config["TWILIO_NUMBER"],
                          to=user.phone_number
                      )
-    print(msg)
+
     print(f"Sent Message. User: {user.phone_number}, ID: {message.sid}")
 
 
@@ -97,7 +97,9 @@ def run_alerts():
     all_users = User.query.all()
     all_locations = Location.query.all()
     users_to_alert = filter_users_to_alert(all_users)
+    print(f"Users to Alert: {[u.phone_number for u in users_to_alert]}")
     for user in users_to_alert:
+        print(f"Checking number: {user.phone_number}")
         try:
             locs = filter_locations(user)
             if len(locs) == 0:

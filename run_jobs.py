@@ -7,6 +7,6 @@ if __name__ == '__main__':
     from server.sms.alert import run_alerts
     from server.datapull.jhu_csse_loader import jhu_csse_loader
 
-    jhu_csse_loader(datetime.now() - timedelta(days=1))
-    jhu_csse_loader(datetime.now())
+    jhu_csse_loader(datetime.now() - timedelta(days=1, hours=4))
+    jhu_csse_loader(datetime.now() - timedelta(hours=4))
     run_alerts()

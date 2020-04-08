@@ -1,6 +1,9 @@
 # Coronalert
 Coronalert is an SMS-based, "amber-alert" style app for alerting users of active Covid-19 cases in their area. The sign up interface is very simple and easy to use, and the alerts are meant to reflect the most up to date data at a frequency chosen by the user.
 
+![image](https://raw.githubusercontent.com/Justinyu1618/Coronalert/master/client/public/coronalert.png)
+
+
 ## Development (Fullstack/Backend)
 Coronalert is built with Flask and React, serving built React templates through a Flask backend.
 

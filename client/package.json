@@ -14,7 +14,7 @@
     "react-geosuggest": "^2.12.1",
     "react-phone-number-input": "^3.0.22",
     "react-places-autocomplete": "^7.2.1",
-    "react-scripts": "3.4.1",
+    "react-scripts": "5.0.1",
     "semantic-ui-react": "^0.88.2"
   },
   "scripts": {
